@@ -35,13 +35,17 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/NEYouFan/UniversalRouter-iOS.git", :tag => s.version.to_s }
 
-
-  s.dependency 'HTR3', '~> 0.0.1'
   s.source_files  = "HTControllerRouter/*.{h,m}"
   s.public_header_files = "HTControllerRouter/*.h"
 
   s.subspec 'Controller' do |as|
-        as.source_files   = "HTControllerRouter/Controller/*.{h,m}"
+        as.source_files   = 'HTControllerRouter/**/*.{h,m}',
+                            'HTControllerRouter/HTControllerRouteInfo.h',
+                            'HTControllerRouter/HTControllerRouter.h'
         as.public_header_files = "HTControllerRouter/Controller/*.h"
+
   end
+
+  s.dependency 'HTR3', '~> 0.0.1'
+  s.dependency 'HTCommonUtility', '~>0.0.2'
 end
