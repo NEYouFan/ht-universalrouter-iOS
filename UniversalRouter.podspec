@@ -16,14 +16,14 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "UniversalRouter"
-  s.version      = "0.0.1"
-  s.summary      = "A short description of UniversalRouter."
+  s.version      = "0.0.2"
+  s.summary      = "页面跳转的router"
 
   s.description  = <<-DESC
-                   Router
+                   页面跳转的router，可以自定义每个页面的url
                    DESC
 
-  s.homepage     = "https://github.com/NEYouFan/UniversalRouter-iOS.git"
+  s.homepage     = "https://github.com/NEYouFan/ht-universalrouter-iOS"
 
   s.license      = "MIT "
 
@@ -33,7 +33,7 @@ Pod::Spec.new do |s|
 
 
 
-  s.source       = { :git => "https://github.com/NEYouFan/UniversalRouter-iOS.git", :tag => s.version.to_s }
+  s.source       = { :git => "https://github.com/NEYouFan/ht-universalrouter-iOS.git", :tag => s.version.to_s }
 
   s.source_files  = "HTControllerRouter/*.{h,m}"
   s.public_header_files = "HTControllerRouter/*.h"
