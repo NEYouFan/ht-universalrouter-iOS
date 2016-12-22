@@ -8,6 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "HTControllerRouteInfo.h"
+#import "HTNavigationController.h"
+#import "HTControllerRouter.h"
+#import "HTControllerRouterLogger.h"
+#import "HTContainerViewController.h"
+#import "UIViewController+HTRouter.h"
+#import "UINavigationController+HTRouterUtils.h"
+#import "UITabBarController+HTRouterUtils.h"
+#import "UIViewController+HTRouterUtils.h"
+#import "UIViewController+HTUtils.h"
+
 NS_ASSUME_NONNULL_BEGIN
 /*!
  *  每个希望被route的controller，需要实现该接口，告知router系统，自身的url等route信息。

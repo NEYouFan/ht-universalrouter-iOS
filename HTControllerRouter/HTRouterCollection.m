@@ -55,13 +55,30 @@ NSArray *HTExportedMethodsByModuleID(void)
             return;
         }
         
+        int addrOffset = sizeof(const char **);
+        /**
+         *  防止address sanitizer报global-buffer-overflow错误
+         *  https://github.com/google/sanitizers/issues/355
+         *  因为address sanitizer填充了符号地址，使用正确的地址偏移
+         */
+#if defined(__has_feature)
+#  if __has_feature(address_sanitizer)
+        addrOffset = 64;
+#  endif
+#endif
+        
         for (HTExportValue addr = section->offset;
              addr < section->offset + section->size;
-             addr += sizeof(const char **)) {
+             addr += addrOffset) {
             
             // Get data entry
             const char **entries = (const char **)(mach_header + addr);
-            NSString *className = extractClassName(@(entries[0]));
+            
+            char * str = *entries;
+            if (str == NULL) {
+                continue;
+            }
+            NSString *className = extractClassName(@(str));
             Class class = className ? NSClassFromString(className) : nil;
             if (class){
                 [classes addObject:class];
