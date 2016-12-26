@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "UniversalRouter"
-  s.version      = "0.0.2"
+  s.version      = "0.0.3"
   s.summary      = "页面跳转的router"
 
   s.description  = <<-DESC
