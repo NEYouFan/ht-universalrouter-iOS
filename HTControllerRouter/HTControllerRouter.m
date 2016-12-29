@@ -128,7 +128,7 @@
                                       handler:(HTRouterViewControllerSetUpBlock)handler
 {
     NSAssert(param.url.length > 0 || param.controllerClass, @"route url param error");
-#warning assert需要处理一下，路口处
+//#warning assert需要处理一下，路口处
     HTControllerRouterConfig *foundRouterConfig;
     NSDictionary *urlParams;
     

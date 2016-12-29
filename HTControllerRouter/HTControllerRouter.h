@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  支持全屏右划手势的协议。
  *  HT的navigation delegate都遵守此协议。
  */
-#warning 位置换一下
+//#warning 位置换一下
 @protocol HTNavigationDelegateInitProtocol <NSObject>
 
 - (instancetype)initWithParentViewController:(UINavigationController*)navigationController;
