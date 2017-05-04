@@ -14,6 +14,7 @@
 
 #import <mach-o/dyld.h>
 #import <mach-o/getsect.h>
+#import <libgen.h>
 
 NSString *extractClassName(NSString *methodName)
 {
