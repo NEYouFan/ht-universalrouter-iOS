@@ -34,9 +34,27 @@ NSArray *HTExportedMethodsByModuleID(void)
             classes = [NSMutableArray new];
         }
         
+        const struct mach_header *header = NULL;
+        intptr_t slide = NULL;
+        NSString *appName =  [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey];
+        uint32_t c = _dyld_image_count();
+        for (uint32_t i = 0; i < c; i++) {
+            const struct mach_header *cur_header = _dyld_get_image_header(i);
+            intptr_t cur_slide = _dyld_get_image_vmaddr_slide(i);
+            
+            Dl_info info;
+            if (dladdr(cur_header, &info) == 0) {
+                continue;
+            }
+            //printf("--->%s",basename(info.dli_fname));
+            if (strcmp(basename(info.dli_fname), [appName UTF8String]) == 0) {
+                header = cur_header;
+                slide = cur_slide;
+            }
+        }
         Dl_info info;
         //这里可能要外部传进来，用来支持动态库导出router信息
-        dladdr(&HTExportedMethodsByModuleID, &info);
+        dladdr(header, &info);
         
 #ifdef __LP64__
         typedef uint64_t HTExportValue;
