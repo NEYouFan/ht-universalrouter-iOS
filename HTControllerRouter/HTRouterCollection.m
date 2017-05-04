@@ -34,8 +34,16 @@ NSArray *HTExportedMethodsByModuleID(void)
             classes = [NSMutableArray new];
         }
         
-        const struct mach_header *header = NULL;
-        intptr_t slide = NULL;
+#ifdef __LP64__
+        typedef uint64_t HTExportValue;
+        typedef struct section_64 HTExportSection;
+#define HTGetSectByNameFromHeader getsectbynamefromheader_64
+#else
+        typedef uint32_t HTExportValue;
+        typedef struct section HTExportSection;
+#define HTGetSectByNameFromHeader getsectbynamefromheader
+#endif
+        HTExportValue executable_base = NULL;
         NSString *appName =  [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey];
         uint32_t c = _dyld_image_count();
         for (uint32_t i = 0; i < c; i++) {
@@ -46,28 +54,16 @@ NSArray *HTExportedMethodsByModuleID(void)
             if (dladdr(cur_header, &info) == 0) {
                 continue;
             }
-            //printf("--->%s",basename(info.dli_fname));
             if (strcmp(basename(info.dli_fname), [appName UTF8String]) == 0) {
-                header = cur_header;
-                slide = cur_slide;
+                executable_base = (HTExportValue)info.dli_fbase;;
+                break;
             }
         }
-        Dl_info info;
-        //这里可能要外部传进来，用来支持动态库导出router信息
-        dladdr(header, &info);
+        if (executable_base == NULL) {
+            return;
+        }
         
-#ifdef __LP64__
-        typedef uint64_t HTExportValue;
-        typedef struct section_64 HTExportSection;
-#define HTGetSectByNameFromHeader getsectbynamefromheader_64
-#else
-        typedef uint32_t HTExportValue;
-        typedef struct section HTExportSection;
-#define HTGetSectByNameFromHeader getsectbynamefromheader
-#endif
-        
-        const HTExportValue mach_header = (HTExportValue)info.dli_fbase;
-        const HTExportSection *section = HTGetSectByNameFromHeader((void *)mach_header, "__DATA", "HTExport");
+        const HTExportSection *section = HTGetSectByNameFromHeader((void *)executable_base, "__DATA", "HTExport");
         
         if (section == NULL) {
             return;
