@@ -38,7 +38,7 @@ Pod::Spec.new do |s|
   s.source_files  = "HTControllerRouter/*.{h,m}"
 
   s.subspec 'Controller' do |as|
-        as.source_files   = 'HTControllerRouter/**/*.{h,m}',
+        as.source_files   = 'HTControllerRouter/**/*.{h,m}'
   end
 
   s.dependency 'HTR3', '~> 0.0.1'
