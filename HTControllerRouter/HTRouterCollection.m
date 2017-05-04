@@ -87,7 +87,7 @@ NSArray *HTExportedMethodsByModuleID(void)
              addr += addrOffset) {
             
             // Get data entry
-            const char **entries = (const char **)(mach_header + addr);
+            const char **entries = (const char **)(executable_base + addr);
             
             char * str = *entries;
             if (str == NULL) {
